@@ -1,8 +1,12 @@
 package com.icss.etc.zhaozichen.net;
 
-import com.icss.etc.zhaozichen.Student;
+import com.icss.etc.zhaozichen.pojo.Student;
+import com.icss.etc.zhaozichen.util.HAUtils;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 /**
@@ -22,16 +26,16 @@ public class HttpSendUtils {
     private HttpSendUtils() {
     }
 
-    private static HttpSendUtils getInstance() {
+    public static HttpSendUtils getInstance() {
         if (sendUtils == null) {
             sendUtils = new HttpSendUtils();
         }
         return sendUtils;
     }
 
-    public String send(String ip, int port, Object... objects) {
+    public Object send(String ip, int port, Object... objects) {
         Socket socket = null;
-        String info = null;
+        Object info = null;
         try {
             socket = new Socket(ip, port);
             socket.setSoTimeout(100000);
@@ -40,25 +44,23 @@ public class HttpSendUtils {
             OutputStream os = socket.getOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(os);
             oos.writeObject(new Student("1", "1", "1", "1", "1"));
-            socket.shutdownOutput();
 
             // 3.获取输入流，取得服务器的信息
-            InputStream is = socket.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
 
-            while ((info = br.readLine()) != null) {
+            if ((info = is.readObject()) != null) {
                 System.out.println("服务器端的信息：" + info);
             }
             socket.shutdownInput();
+            socket.shutdownOutput();
 
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return info;
     }
 
     public static void main(String[] args) {
-        String info = HttpSendUtils.getInstance().send("222.186.174.9", 42104);
-
+        Object o = HttpSendUtils.getInstance().send("222.186.174.9", 42104);
     }
 }

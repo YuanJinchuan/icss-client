@@ -1,4 +1,4 @@
-package com.icss.etc.zhaozichen;
+package com.icss.etc.zhaozichen.pojo;
 
 import java.io.Serializable;
 
@@ -14,6 +14,8 @@ import java.io.Serializable;
  */
 public class Student implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private String id;
 
     private String type;
@@ -23,6 +25,18 @@ public class Student implements Serializable {
     private String age;
 
     private String day;
+
+    public Student() {
+    }
+
+    public Student(String id, String type) {
+        this.id = id;
+        this.type = type;
+    }
+
+    public Student(String type) {
+        this.type = type;
+    }
 
     public Student(String id, String type, String name, String age, String day) {
         this.id = id;
@@ -72,5 +86,16 @@ public class Student implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                ", day='" + day + '\'' +
+                '}';
     }
 }
