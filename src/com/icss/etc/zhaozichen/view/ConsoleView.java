@@ -49,10 +49,11 @@ public class ConsoleView {
             username = scanner.nextLine();
             System.out.println("请输入密码：");
             password = scanner.nextLine();
+            System.out.println(password.equals(PropertiesUtil.getInstance().getValue("password")));
             if ("".equals(username) || "".equals(password)) {
                 System.out.println("用户名或密码不可为空！");
-            } else if (!username.equals(PropertiesUtil.getInstance().getValue("username"))
-                    && !password.equals(PropertiesUtil.getInstance().getValue("password"))) {
+            } else if (!(username.equals(PropertiesUtil.getInstance().getValue("username"))
+                    && password.equals(PropertiesUtil.getInstance().getValue("password")))) {
                 System.out.println("用户名或密码输入错误！");
             } else {
                 break;
