@@ -47,7 +47,6 @@ public class ConsoleView {
         while (true) {
             System.out.println("请输入用户名：");
             username = scanner.nextLine();
-            System.out.println();
             System.out.println("请输入密码：");
             password = scanner.nextLine();
             if ("".equals(username) || "".equals(password)) {
